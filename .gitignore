@@ -13,8 +13,13 @@ build/
 venv/
 env/
 
-# FAISS index (gerado em runtime, não deve ir para o repositório)
+# Environment files
+.env
+
+# FAISS index and runtime storage
 faiss_index/
+storage/
+!storage/.gitkeep
 
 # Streamlit
 .streamlit/

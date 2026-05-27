@@ -1,0 +1,28 @@
+services:
+  app:
+    build: .
+    container_name: document-intelligence-app
+    ports:
+      - "8501:8501"
+    environment:
+      OLLAMA_BASE_URL: "http://ollama:11434"
+      OLLAMA_LLM_MODEL: "${OLLAMA_LLM_MODEL:-llama3}"
+      OLLAMA_EMBEDDING_MODEL: "${OLLAMA_EMBEDDING_MODEL:-nomic-embed-text}"
+      OCR_LANG: "${OCR_LANG:-por+eng}"
+      VECTOR_INDEX_DIR: "/app/storage/faiss_index"
+      RETRIEVER_K: "${RETRIEVER_K:-3}"
+    volumes:
+      - ./storage:/app/storage
+    depends_on:
+      - ollama
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: document-intelligence-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+volumes:
+  ollama_data:

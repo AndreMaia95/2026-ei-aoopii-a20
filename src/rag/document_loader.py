@@ -1,20 +1,34 @@
+from __future__ import annotations
+
+from typing import Any
+
 from langchain_core.documents import Document
 
-def process_blocks_to_langchain_docs(blocks, source_name="documento"):
-    """
-    Converte os blocos do OCR (imagem + coords) em Documentos Langchain.
-    """
-    documents = []
+
+def process_blocks_to_langchain_docs(
+    blocks: list[dict[str, Any]],
+    source_name: str = "documento",
+) -> list[Document]:
+    """Convert OCR blocks into LangChain documents with traceable metadata."""
+    documents: list[Document] = []
+
     for i, block in enumerate(blocks):
-        # Aqui assumimos que o texto já foi extraído pelo Tesseract no passo anterior
+        text = block.get("text", "").strip()
+        if not text:
+            continue
+
         doc = Document(
-            page_content=block['text'],
+            page_content=text,
             metadata={
                 "source": source_name,
                 "block_id": i,
-                "coords": block['coords'], # (x, y, w, h)
-                "type": "text_block"
-            }
+                "page_number": block.get("page_number"),
+                "coords": block.get("coords"),
+                "confidence": block.get("confidence"),
+                "type": "text_block",
+                "extraction_method": "ocr",
+            },
         )
         documents.append(doc)
+
     return documents
