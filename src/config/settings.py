@@ -49,7 +49,7 @@ OCR_MIN_CONFIDENCE = _get_int("OCR_MIN_CONFIDENCE", 40)
 PDF_RENDER_ZOOM = float(os.getenv("PDF_RENDER_ZOOM", "2.0"))
 
 VECTOR_INDEX_DIR = Path(os.getenv("VECTOR_INDEX_DIR", str(BASE_DIR / "storage" / "faiss_index")))
-RETRIEVER_K = _get_int("RETRIEVER_K", 3)
+RETRIEVER_K = _get_int("RETRIEVER_K", 30)
 ALLOW_DANGEROUS_DESERIALIZATION = _get_bool("ALLOW_DANGEROUS_DESERIALIZATION", False)
 
 ALLOWED_FILE_TYPES = ["pdf", "png", "jpg", "jpeg"]

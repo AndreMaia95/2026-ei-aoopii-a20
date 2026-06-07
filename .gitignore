@@ -21,8 +21,8 @@ faiss_index/
 storage/
 !storage/.gitkeep
 
-# Streamlit
-.streamlit/
+# Streamlit — ignore secrets but keep theme config
+.streamlit/secrets.toml
 
 # OS
 .DS_Store
@@ -31,3 +31,7 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+
+# Dev/debug scripts
+debug_ocr.py
+test_*.py
