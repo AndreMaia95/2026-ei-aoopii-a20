@@ -18,11 +18,9 @@ COPY requirements.txt ./
 RUN pip install --upgrade pip \
     && pip install -r requirements.txt
 
-COPY entrypoint.sh ./
-RUN chmod +x entrypoint.sh
-
 COPY . .
+RUN sed -i 's/\r$//' entrypoint.sh && chmod +x entrypoint.sh
 
 EXPOSE 8501
 
-CMD ["./entrypoint.sh"]
+CMD ["sh", "entrypoint.sh"]
