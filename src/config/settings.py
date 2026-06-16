@@ -44,7 +44,23 @@ OLLAMA_LLM_MODEL = os.getenv("OLLAMA_LLM_MODEL", "llama3")
 OLLAMA_EMBEDDING_MODEL = os.getenv("OLLAMA_EMBEDDING_MODEL", "nomic-embed-text")
 
 OCR_LANG = os.getenv("OCR_LANG", "por+eng")
-TESSERACT_CMD = os.getenv("TESSERACT_CMD", "").strip()
+def _find_tesseract() -> str:
+    """Return Tesseract path: env var first, then auto-detect common locations."""
+    cmd = os.getenv("TESSERACT_CMD", "").strip()
+    if cmd:
+        return cmd
+    # Auto-detect common Windows installation paths
+    windows_paths = [
+        r"C:\Program Files\Tesseract-OCR\tesseract.exe",
+        r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",
+        r"C:\Users\Public\Tesseract-OCR\tesseract.exe",
+    ]
+    for path in windows_paths:
+        if os.path.isfile(path):
+            return path
+    return ""  # Linux/Mac: pytesseract finds it automatically via PATH
+
+TESSERACT_CMD = _find_tesseract()
 OCR_MIN_CONFIDENCE = _get_int("OCR_MIN_CONFIDENCE", 40)
 PDF_RENDER_ZOOM = float(os.getenv("PDF_RENDER_ZOOM", "2.0"))
 
