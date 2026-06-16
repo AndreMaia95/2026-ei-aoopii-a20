@@ -11,7 +11,7 @@ env
 *.egg-info
 dist
 build
-.streamlit
+.streamlit/secrets.toml
 .env
 storage
 faiss_index

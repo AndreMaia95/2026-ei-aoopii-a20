@@ -9,6 +9,7 @@ RUN apt-get update \
         tesseract-ocr \
         tesseract-ocr-por \
         tesseract-ocr-eng \
+        curl \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -17,8 +18,11 @@ COPY requirements.txt ./
 RUN pip install --upgrade pip \
     && pip install -r requirements.txt
 
+COPY entrypoint.sh ./
+RUN chmod +x entrypoint.sh
+
 COPY . .
 
 EXPOSE 8501
 
-CMD ["streamlit", "run", "src/main.py", "--server.address=0.0.0.0", "--server.port=8501"]
+CMD ["./entrypoint.sh"]
